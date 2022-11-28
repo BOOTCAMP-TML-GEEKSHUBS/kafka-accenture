@@ -1,8 +1,11 @@
 start:
 	docker compose up -d
 
+tools:
+	docker compose -f tools.yaml run tools 
+
 build:
-	docker build -t cursokafka .
+	docker compose build
 
 server:
 	docker run -it cursokafka
