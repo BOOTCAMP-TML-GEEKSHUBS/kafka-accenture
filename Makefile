@@ -3,6 +3,9 @@ bootstrap-server = broker1:9092,broker2:9092,broker3:9092
 start:
 	docker compose up -d
 
+services-start:
+	docker compose -f services.yaml up -d
+
 stop:
 	docker compose down --remove-orphans
 
@@ -11,9 +14,6 @@ tools:
 
 build:
 	docker compose build
-
-server:
-	docker run -it cursokafka
 
 cleanup:
 	docker rm -f $$(docker ps -aq)
@@ -49,6 +49,10 @@ describe-topic:
 	docker compose -f tools.yaml run --rm tools bash -c \
 		"./bin/kafka-topics.sh --bootstrap-server $(bootstrap-server) --describe --topic $$topic"
 
+describe-groups:
+	docker compose -f tools.yaml run --rm tools bash -c \
+		"./bin/kafka-consumer-groups.sh --bootstrap-server $(bootstrap-server) --describe --all-groups"
+
 console-producer:
 	@read -p "Enter a topic name: " topic; \
 	docker compose -f tools.yaml run --rm tools bash -c \
@@ -56,5 +60,6 @@ console-producer:
 
 console-consumer:
 	@read -p "Enter a topic name: " topic; \
+	read -p "Enter a consumer group name: " group; \
 	docker compose -f tools.yaml run --rm tools bash -c \
-		"./bin/kafka-console-consumer.sh --bootstrap-server $(bootstrap-server) --topic $$topic"
+		"./bin/kafka-console-consumer.sh --bootstrap-server $(bootstrap-server) --group $$group --topic $$topic --from-beginning"

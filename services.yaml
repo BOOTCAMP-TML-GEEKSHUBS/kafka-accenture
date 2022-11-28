@@ -1,0 +1,7 @@
+services:
+  producer-js:
+    image: node
+    command: ['node', 'index.js']
+    working_dir: /app
+    volumes:
+      - ./src/producer-js:/app
