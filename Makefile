@@ -27,3 +27,14 @@ create-topic:
 	read -p "Enter replication factor: " replication; \
 	docker compose -f tools.yaml run --rm tools bash -c \
 		"./bin/kafka-topics.sh --bootstrap-server $(bootstrap-server) --create --topic $$topic --partitions $$partitions --replication-factor $$replication"
+
+
+delete-topic:
+	@read -p "Enter a topic name: " topic; \
+	docker compose -f tools.yaml run --rm tools bash -c \
+		"./bin/kafka-topics.sh --bootstrap-server $(bootstrap-server) --delete --topic $$topic"
+
+describe-topic:
+	@read -p "Enter a topic name: " topic; \
+	docker compose -f tools.yaml run --rm tools bash -c \
+		"./bin/kafka-topics.sh --bootstrap-server $(bootstrap-server) --describe --topic $$topic"
