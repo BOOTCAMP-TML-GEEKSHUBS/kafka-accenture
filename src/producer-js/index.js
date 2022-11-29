@@ -5,21 +5,19 @@ const kafka = new Kafka({
   brokers: ['broker1:9092', 'broker2:9092', 'broker3:9092'],
 })
 
-
 const producer = kafka.producer();
 
 producer.connect().then(() => {
+    let counter = 0;
     setInterval(async () => {
-        await producer.send({
-        topic: 'test-topic',
+        const response = await producer.send({
+            topic: 'welcome',
             messages: [ 
-                { value: 'Hello KafkaJS user!' },
-                { value: 'Hello KafkaJS user!' },
-                { value: 'Hello KafkaJS user!' },
-                { value: 'Hello KafkaJS user!' },
-            ],
+                    { value: 'Hello KafkaJS user! ' + counter++ },
+                ],
         })
-    },1000);
+        console.log(response);
+    },100);
 });
 
 

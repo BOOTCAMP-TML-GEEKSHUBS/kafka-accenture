@@ -3,6 +3,15 @@ bootstrap-server = broker1:9092,broker2:9092,broker3:9092
 start:
 	docker compose up -d
 
+start-local:
+	docker compose -f local.yaml up -d
+
+restart:
+	docker compose restart
+
+restart-local:
+	docker compose -f local.yaml restart	
+
 services-start:
 	docker compose -f services.yaml up -d
 

@@ -29,3 +29,11 @@ services:
     volumes:
       - ./config:/config
       - ./data/broker3:/kafka-logs
+  producer-js:
+    image: node
+    deploy:
+      replicas: 5
+    command: ['node', 'index.js']
+    working_dir: /app
+    volumes:
+      - ./src/producer-js:/app

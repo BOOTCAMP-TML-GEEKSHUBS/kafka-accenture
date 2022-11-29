@@ -1,0 +1,33 @@
+version: "3"
+services:   
+  zookeeper:
+    build:
+      context: .
+    command: ['./bin/zookeeper-server-start.sh', '/config/zookeeper']
+    volumes:
+      - ./config:/config
+  broker1:
+    build:
+      context: .
+    command: ['./bin/kafka-server-start.sh', '/config/localhost/broker1']
+    ports:
+      - 29092:29092
+    volumes:
+      - ./config:/config
+  broker2:
+    build:
+      context: .
+    command: ['./bin/kafka-server-start.sh', '/config/localhost/broker2']
+    ports: 
+      - 29093:29093
+    volumes:
+      - ./config:/config
+
+  broker3:
+    build:
+      context: .
+    command: ['./bin/kafka-server-start.sh', '/config/localhost/broker3']
+    ports:
+      - 29094:29094
+    volumes:
+      - ./config:/config
