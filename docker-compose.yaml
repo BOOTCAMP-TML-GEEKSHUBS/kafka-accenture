@@ -4,7 +4,7 @@ services:
     command: ['./bin/zookeeper-server-start.sh', '/config/zookeeper']
     volumes:
       - ./config:/config
-      - ./data/zookeeper:/zookeeper
+      # - ./data/zookeeper:/zookeeper
   broker1:
     build: .
     depends_on: 
@@ -12,7 +12,7 @@ services:
     command: ['./bin/kafka-server-start.sh', '/config/broker1']
     volumes:
       - ./config:/config
-      - ./data/broker1:/kafka-logs
+      # - ./data/broker1:/kafka-logs
   broker2:
     build: .
     depends_on: 
@@ -20,7 +20,7 @@ services:
     command: ['./bin/kafka-server-start.sh', '/config/broker2']
     volumes:
       - ./config:/config
-      - ./data/broker2:/kafka-logs
+      # - ./data/broker2:/kafka-logs
   broker3:
     build: .
     depends_on: 
@@ -28,12 +28,45 @@ services:
     command: ['./bin/kafka-server-start.sh', '/config/broker3']
     volumes:
       - ./config:/config
-      - ./data/broker3:/kafka-logs
-  producer-js:
+      # - ./data/broker3:/kafka-logs
+  producer-topica-js:
     image: node
     deploy:
-      replicas: 5
-    command: ['node', 'index.js']
+      replicas: 2
+    command: ['node', 'producer.js']
+    working_dir: /app
+    environment:
+      - topic=topica
+    volumes:
+      - ./src/services-js:/app
+
+
+  producer-topicb-js:
+    image: node
+    deploy:
+      replicas: 2
+    command: ['node', 'producer.js']
+    working_dir: /app
+    environment:
+      - topic=topicb
+    volumes:
+      - ./src/services-js:/app
+
+  consumer-js:
+    image: node
+    deploy:
+      replicas: 10
+    command: ['node', 'consumer.js']
     working_dir: /app
     volumes:
-      - ./src/producer-js:/app
+      - ./src/services-js:/app
+
+
+  consumer2-js:
+    image: node
+    deploy:
+      replicas: 2
+    command: ['node', 'consumer2.js']
+    working_dir: /app
+    volumes:
+      - ./src/services-js:/app
