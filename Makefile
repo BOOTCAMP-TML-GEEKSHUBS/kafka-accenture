@@ -6,6 +6,9 @@ start: ## start private network context
 start-local: ## start localhost context
 	docker compose -f local.yaml up -d
 
+start-all-in-one: ## start confluentic all in one
+	docker compose -f all-in-one.yaml up -d
+
 restart: ## restart private network context
 	docker compose restart
 

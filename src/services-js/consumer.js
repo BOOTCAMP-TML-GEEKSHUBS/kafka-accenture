@@ -13,7 +13,7 @@ const consumer = kafka.consumer({ groupId: 'logger' })
 
 const init = async () => {
     await consumer.connect().then(() => console.log('se ha conectado el consumer'));
-    await consumer.subscribe({ topic: 'topica', fromBeginning: true})
+    await consumer.subscribe({ topic: 'topica', fromBeginning: true, partition: [1,3,5,7]})
     await consumer.subscribe({ topic: 'topicb' })
 
     await consumer.run({

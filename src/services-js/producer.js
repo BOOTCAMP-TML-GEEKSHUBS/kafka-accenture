@@ -13,9 +13,11 @@ const createMessage = num => ({
     key: `key-${num}`,
     value: `value-${num}-${new Date().toISOString()}`,
   })
-  
+  partition = partition >= partitions ? 1 : partition;  
+
   const sendMessage = topic => producer.send({
         topic,
+        partition: partition += 2,
         compression: CompressionTypes.GZIP,
         messages: [createMessage(getRandomNumber())],
       })
